@@ -7,8 +7,6 @@
 #endif
 
 #include <iostream>
-#include <stdlib.h>
-
 #include "version.h"
 #include "crypto_compare_api.h"
 
@@ -28,12 +26,7 @@ int main() {
             << PROJECT_VERSION_TWEAK
             << std::endl;
 
-
-
-  // Bring in the dummy class from the example source,
-  // just to show that it is accessible from main.cpp.
-  // rCryptoCompareApi c = CryptoCompareApi();
-  CryptoCompareApi::doSomething();
+  CryptoCompareApi::doRequest();
 
   return 0;
 }

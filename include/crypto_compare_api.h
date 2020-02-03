@@ -1,5 +1,5 @@
 #pragma once
-// #define CPPHTTPLIB_OPENSSL_SUPPORT
+#define CPPHTTPLIB_OPENSSL_SUPPORT
 
 /**
  * This is a dummy class to demonstrate features of the boiler plate.
@@ -15,7 +15,7 @@ public:
      * Returns a bool.
      * @return Always True.
      */
-    static void doSomething();
+    static void doRequest();
 };
 
 
