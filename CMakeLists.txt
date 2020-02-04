@@ -10,6 +10,7 @@ option(ENABLE_DOCTESTS "Include tests in the library. Setting this to OFF will r
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 set(JSON_BuildTests OFF CACHE INTERNAL "")
 
+include(cimg)
 include(ConfigSafeGuards)
 include(Colors)
 include(CTest)
@@ -31,12 +32,14 @@ set(TESTFILES        # All .cpp files in tests/
 )
 set(LIBRARY_NAME engine)  # Default name for the library built from src/*.cpp (change if you wish)
 
-
 add_library(${LIBRARY_NAME} OBJECT ${SOURCES})
+target_include_directories(${LIBRARY_NAME} PUBLIC ${OPENSSL_INCLUDE_DIR})
 target_include_directories(${LIBRARY_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_link_libraries(${LIBRARY_NAME} PUBLIC doctest)
 target_link_libraries(${LIBRARY_NAME} PUBLIC nlohmann_json::nlohmann_json)
 target_link_libraries(${LIBRARY_NAME} PUBLIC httplib)
+target_link_libraries(${LIBRARY_NAME} PUBLIC cimg)
+target_link_libraries(${LIBRARY_NAME} PUBLIC ${OPENSSL_LIBRARIES})
 target_set_warnings(${LIBRARY_NAME} ENABLE ALL AS_ERROR ALL DISABLE Annoying)
 
 
@@ -54,5 +57,4 @@ set_target_properties(
         CXX_EXTENSIONS NO
 )
 
-add_subdirectory(tests)
 add_subdirectory(third_party/nlohmann_json)

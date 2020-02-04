@@ -26,7 +26,9 @@ int main() {
             << PROJECT_VERSION_TWEAK
             << std::endl;
 
-  CryptoCompareApi::doRequest();
+  CryptoCompareApi c = CryptoCompareApi("BTC,BCH,LTC,BSV,ETC,XRP");
+  c.parseJson(c.doRequest());
+  c.printData();
 
   return 0;
 }

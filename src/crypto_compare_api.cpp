@@ -1,28 +1,45 @@
 #include "crypto_compare_api.h"
-#include <nlohmann/json.hpp>
-#include <httplib.h>
-#include <iostream>
 
-using json = nlohmann::json;
-using namespace::std;
+CryptoCompareApi::CryptoCompareApi(string cur)  {
+    currencies = std::move(cur);
+}
 
-
-CryptoCompareApi::CryptoCompareApi() = default;
-
-void CryptoCompareApi::doRequest() {
-    httplib::SSLClient cli("https://min-api.cryptocompare.com/data/pricemultifull?fsyms=BTC&tsyms=USD,EUR", 443);
+std::string CryptoCompareApi::doRequest() {
+    httplib::SSLClient cli("min-api.cryptocompare.com", 443);
     cli.set_follow_location(true);
-    // cli.set_ca_cert_path(CA_CERT_FILE);
+    cli.set_ca_cert_path(CA_CERT_FILE);
     cli.enable_server_certificate_verification(true);
 
-    auto res = cli.Get("/");
+    std::cout << "Cur: " << currencies << std::endl;
+    string path = "/data/pricemultifull?fsyms=" + currencies + "&tsyms=USD";
+    auto res = cli.Get(path.c_str());
     if (res && res->status == 200) {
-        std::cout << res->body << std::endl;
-    } else {
-        std::cout << "failed" << std::endl;
+        return res->body;
+    }
+    return "";
+}
+
+void CryptoCompareApi::parseJson(const std::string& input)  {
+    auto x = json::parse(input);
+    std::stringstream ss;
+    int idx = 0;
+    for (const auto& i : x["RAW"]) {
+        coins[idx].sym = i["USD"]["FROMSYMBOL"];
+        coins[idx].price = i["USD"]["PRICE"];
+        idx++;
     }
 }
 
+void CryptoCompareApi::printData() {
+    for(const auto& i : coins) {
+        std::cout << i.sym << std::endl;
+        std::cout << i.price << std::endl;
+    }
+}
+
+void CryptoCompareApi::saveImage() {
+    CImg<unsigned char> image("lena.jpg"), visu(500,400,1,3,0);
+}
 
 #ifdef ENABLE_DOCTEST_IN_LIBRARY
 #include "doctest.h"
