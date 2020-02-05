@@ -2,6 +2,7 @@
 
 #define CPPHTTPLIB_OPENSSL_SUPPORT
 #define CA_CERT_FILE "../data/ca-bundle.crt"
+#define cimg_display 0
 
 #include <nlohmann/json.hpp>
 #include <httplib.h>
@@ -36,14 +37,3 @@ public:
 
     void saveImage();
 };
-
-
-
-#ifdef ENABLE_DOCTEST_IN_LIBRARY
-#include "doctest.h"
-TEST_CASE("we can have tests in headers if we want")
-{
-//    CryptoCompareApi d;
-//    CHECK(d.doSomething());
-}
-#endif

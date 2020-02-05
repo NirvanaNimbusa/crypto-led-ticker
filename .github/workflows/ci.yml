@@ -20,5 +20,3 @@ jobs:
       run: mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=debug ..
     - name: build
       run: cmake --build build
-    - name: test
-      run: cd build && ctest
